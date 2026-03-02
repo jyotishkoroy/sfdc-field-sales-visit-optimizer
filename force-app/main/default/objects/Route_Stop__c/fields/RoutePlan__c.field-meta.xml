@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>RoutePlan__c</fullName>
+  <label>Route Plan</label>
+  <type>MasterDetail</type>
+  <referenceTo>Route_Plan__c</referenceTo>
+  <relationshipLabel>Route Plan</relationshipLabel>
+  <relationshipName>RoutePlan</relationshipName>
+  <reparentableMasterDetail>false</reparentableMasterDetail>
+</CustomField>

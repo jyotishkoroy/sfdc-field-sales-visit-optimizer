@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+  <label>Field Sales Optimizer Admin</label>
+  <hasActivationRequired>false</hasActivationRequired>
+
+  <classAccesses><apexClass>FieldVisitController</apexClass><enabled>true</enabled></classAccesses>
+  <classAccesses><apexClass>VisitCheckInService</apexClass><enabled>true</enabled></classAccesses>
+  <classAccesses><apexClass>RoutePlanner</apexClass><enabled>true</enabled></classAccesses>
+  <classAccesses><apexClass>MockRouteProvider</apexClass><enabled>true</enabled></classAccesses>
+  <classAccesses><apexClass>LocationUtil</apexClass><enabled>true</enabled></classAccesses>
+  <customMetadataTypeAccesses><name>Visit_Config__mdt</name><enabled>true</enabled></customMetadataTypeAccesses>
+
+  <objectPermissions>
+    <object>Visit__c</object>
+    <allowCreate>true</allowCreate><allowRead>true</allowRead><allowEdit>true</allowEdit><allowDelete>true</allowDelete>
+    <viewAllRecords>true</viewAllRecords><modifyAllRecords>true</modifyAllRecords>
+  </objectPermissions>
+  <objectPermissions>
+    <object>Route_Plan__c</object>
+    <allowCreate>true</allowCreate><allowRead>true</allowRead><allowEdit>true</allowEdit><allowDelete>true</allowDelete>
+    <viewAllRecords>true</viewAllRecords><modifyAllRecords>true</modifyAllRecords>
+  </objectPermissions>
+  <objectPermissions>
+    <object>Route_Stop__c</object>
+    <allowCreate>true</allowCreate><allowRead>true</allowRead><allowEdit>true</allowEdit><allowDelete>true</allowDelete>
+    <viewAllRecords>true</viewAllRecords><modifyAllRecords>true</modifyAllRecords>
+  </objectPermissions>
+</PermissionSet>

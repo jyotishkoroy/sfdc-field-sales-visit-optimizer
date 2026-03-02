@@ -1,0 +1,89 @@
+<template>
+    <lightning-card title="Field Visit Mobile" icon-name="utility:checkin">
+        <div class="slds-p-horizontal_small slds-p-vertical_small">
+            <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                <div class="slds-text-body_small slds-text-color_weak">{subtitle}</div>
+                <lightning-button label="Refresh" onclick={refresh} disabled={isLoading}></lightning-button>
+            </div>
+
+            <template if:true={isLoading}>
+                <lightning-spinner size="small"></lightning-spinner>
+            </template>
+
+            <template if:true={visits}>
+                <template for:each={visits} for:item="v">
+                    <div key={v.Id} class="slds-box slds-m-bottom_small">
+                        <div class="slds-grid slds-wrap slds-grid_align-spread">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-5">
+                                <div class="slds-text-heading_small">{v.Name}</div>
+                                <div class="slds-text-body_small slds-text-color_weak">
+                                    {v.AccountName} • {v.PlannedWindow}
+                                </div>
+                                <div class="slds-m-top_x-small">
+                                    <lightning-badge label={v.Status__c}></lightning-badge>
+                                    <template if:true={v.Exception__c}>
+                                        <lightning-badge class="slds-m-left_x-small" label="Exception"></lightning-badge>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-5 slds-text-align_right">
+                                <lightning-button
+                                    variant="brand"
+                                    label="Check In"
+                                    data-id={v.Id}
+                                    onclick={checkIn}
+                                    disabled={v.Status__c !== 'Planned' || isLoading}
+                                ></lightning-button>
+
+                                <lightning-button
+                                    class="slds-m-left_x-small"
+                                    variant="neutral"
+                                    label="Check Out"
+                                    data-id={v.Id}
+                                    onclick={checkOut}
+                                    disabled={v.Status__c !== 'CheckedIn' || isLoading}
+                                ></lightning-button>
+                            </div>
+                        </div>
+
+                        <template if:true={v.Exception__c}>
+                            <div class="slds-m-top_small slds-text-color_error slds-text-body_small">
+                                {v.Exception__c}
+                                <template if:true={v.ExceptionReason__c}>
+                                    — {v.ExceptionReason__c}
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+
+            <template if:true={error}>
+                <div class="slds-text-color_error">{error}</div>
+            </template>
+        </div>
+    </lightning-card>
+
+    <!-- Reason modal -->
+    <template if:true={reasonModalOpen}>
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title slds-hyphenate">Out-of-radius</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p class="slds-text-body_small slds-m-bottom_small">
+                        You are outside the allowed check-in radius. Add a reason to continue.
+                    </p>
+                    <lightning-input label="Reason" value={exceptionReason} onchange={handleReasonChange}></lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeReason}></lightning-button>
+                    <lightning-button class="slds-m-left_x-small" variant="brand" label="Continue" onclick={confirmReason}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

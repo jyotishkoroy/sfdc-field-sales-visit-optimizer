@@ -1,0 +1,44 @@
+<template>
+    <lightning-card title="Route Planner" icon-name="utility:route">
+        <div class="slds-p-horizontal_small slds-p-vertical_small">
+            <div class="slds-grid slds-wrap slds-grid_align-spread slds-gutters">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+                    <lightning-input type="date" label="Plan date" value={planDate} onchange={handleDate}></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-p-top_large slds-text-align_right">
+                    <lightning-button variant="brand" label="Generate Route" onclick={generate} disabled={isLoading}></lightning-button>
+                </div>
+            </div>
+
+            <template if:true={summary}>
+                <div class="slds-m-top_small slds-text-body_small">
+                    <b>Stops:</b> {summary.stopCount} •
+                    <b>Total:</b> {summary.totalDistanceKm} km •
+                    <b>ETA:</b> {summary.totalDurationMin} min
+                </div>
+            </template>
+
+            <template if:true={isLoading}>
+                <div class="slds-m-top_small">
+                    <lightning-spinner size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={stops}>
+                <div class="slds-m-top_small">
+                    <lightning-datatable
+                        key-field="Id"
+                        data={stops}
+                        columns={columns}
+                        hide-checkbox-column
+                        show-row-number-column
+                    ></lightning-datatable>
+                </div>
+            </template>
+
+            <template if:true={error}>
+                <div class="slds-m-top_small slds-text-color_error">{error}</div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
